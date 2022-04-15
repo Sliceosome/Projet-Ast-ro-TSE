@@ -25,6 +25,8 @@ else {
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
+    myglwidget.cpp \
+    vaisseau.cpp \
     webcam.cpp
 
 INCLUDEPATH +=$$(OPENCV_DIR)\..\..\include
@@ -40,6 +42,8 @@ LIBS += -L$$(OPENCV_DIR)/lib \
 
 HEADERS += \
     mainwindow.h \
+    myglwidget.h \
+    vaisseau.h \
     webcam.h
 
 FORMS += \

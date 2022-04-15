@@ -4,6 +4,7 @@
 #include "webcam.h"
 #include <QMainWindow>
 #include "ui_mainwindow.h"
+#include "myglwidget.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -24,5 +25,6 @@ private slots:
 private:
     Ui::MainWindow *ui;
     Webcam *camera_;
+    MyGLWidget *GlWidget;
 };
 #endif // MAINWINDOW_H
