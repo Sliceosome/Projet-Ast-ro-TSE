@@ -27,7 +27,7 @@
      <string/>
     </property>
    </widget>
-   <widget class="QOpenGLWidget" name="openGLWidget">
+   <widget class="MyGLWidget" name="openGLWidget">
     <property name="geometry">
      <rect>
       <x>180</x>
@@ -37,7 +37,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>30</x>
@@ -66,6 +66,13 @@
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MyGLWidget</class>
+   <extends>QOpenGLWidget</extends>
+   <header location="global">myglwidget.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
