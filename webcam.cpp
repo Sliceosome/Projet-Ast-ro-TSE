@@ -15,12 +15,8 @@ using namespace std;
 Webcam::Webcam(QWidget *parent)
     : QWidget{parent}, cap_(0)
 {
-    cap_.set(cv::CAP_PROP_FRAME_WIDTH,10000);
-    cap_.set(cv::CAP_PROP_FRAME_HEIGHT,10000);
-    std::cout<<"max width: "<<cap_.get(cv::CAP_PROP_FRAME_WIDTH)<<std::endl;
-    std::cout<<"max height: "<<cap_.get(cv::CAP_PROP_FRAME_HEIGHT)<<std::endl;
     cap_.set(cv::CAP_PROP_FRAME_WIDTH,640);
-    cap_.set(cv::CAP_PROP_FRAME_HEIGHT,480);
+    cap_.set(cv::CAP_PROP_FRAME_HEIGHT,360);
     std::cout<<"width: "<<cap_.get(cv::CAP_PROP_FRAME_WIDTH)<<std::endl;
     std::cout<<"height: "<<cap_.get(cv::CAP_PROP_FRAME_HEIGHT)<<std::endl;
     if(!cap_.isOpened())  // check if we succeeded
@@ -114,6 +110,7 @@ void Webcam::updateVideo()
 }
 
 cv::Mat Webcam::GetFrame(){
-    //std::cout << "taille_après : " << frame_.rows << std::endl;
+//    std::cout << "taille_après : " << frame_.cols << std::endl;
+
     return frame_;
 }
