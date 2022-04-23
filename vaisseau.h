@@ -15,6 +15,7 @@ public:
     // Destructeur
     ~Vaisseau();
 
+    void turn(QString ordre);
     // Methode d'affichage
     void Display(uint64_t iTimeElapsed) const;
 
