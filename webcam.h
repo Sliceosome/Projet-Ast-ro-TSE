@@ -20,6 +20,9 @@ public:
     explicit Webcam(QWidget *parent = nullptr);
     QPixmap Mat2QPixmap(const cv::Mat& mat);
     cv::Mat GetFrame();
+    QString getOrdre();
+    void setOrdre(QString ordre);
+
 
 private slots:
     void updateVideo();
@@ -28,6 +31,7 @@ private slots:
 private:
     cv::Mat frame_;
     cv::VideoCapture cap_;
+    QString ordre_;
 };
 
 #endif // WEBCAM_H

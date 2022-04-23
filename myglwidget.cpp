@@ -10,8 +10,9 @@ const unsigned int HEIGHT = 391;
 
 
 // Constructeur
-MyGLWidget::MyGLWidget(QWidget * parent) : QOpenGLWidget(parent)
+MyGLWidget::MyGLWidget(QWidget * parent, Webcam* camera) : QOpenGLWidget(parent)
 {
+    camera_ = camera;
     // Reglage de la taille/position
     setFixedSize(WIDTH, HEIGHT);
 

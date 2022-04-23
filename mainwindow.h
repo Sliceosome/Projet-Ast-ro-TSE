@@ -26,5 +26,6 @@ private:
     Ui::MainWindow *ui;
     Webcam *camera_;
     MyGLWidget *GlWidget;
+    QString ordre_displayed = "neutral";
 };
 #endif // MAINWINDOW_H

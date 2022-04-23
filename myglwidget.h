@@ -1,7 +1,11 @@
+#ifndef MYGLWIDGET_H
+#define MYGLWIDGET_H
+
 #include "vaisseau.h"
 #include <QOpenGLWidget>
 #include <QKeyEvent>
 #include <QTimer>
+#include "webcam.h"
 
 // Classe dediee a l'affichage d'une scene OpenGL
 class MyGLWidget : public QOpenGLWidget
@@ -9,7 +13,7 @@ class MyGLWidget : public QOpenGLWidget
 public:
 
     // Constructeur
-    MyGLWidget(QWidget * parent = nullptr);
+    MyGLWidget(QWidget * parent = nullptr, Webcam* camera = nullptr);
 
 protected:
 
@@ -26,4 +30,7 @@ private:
     Vaisseau* maVoiture = nullptr;
     float m_TimeElapsed { 0.0f };
     QTimer m_AnimationTimer;
+    Webcam* camera_ = nullptr;
 };
+
+#endif // MYGLWIDGET_H

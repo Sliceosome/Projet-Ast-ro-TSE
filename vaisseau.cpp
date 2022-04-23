@@ -13,6 +13,14 @@ Vaisseau::~Vaisseau()
         gluDeleteQuadric(m_Roue);
 }
 
+void Vaisseau::turn(QString ordre){
+    if(ordre == "left"){
+
+    }else if(ordre == "right"){
+
+    }
+}
+
 void Vaisseau::Display(uint64_t iTimeElapsed) const
 {
     // Vaisseau

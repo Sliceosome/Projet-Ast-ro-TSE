@@ -37,6 +37,11 @@ QPixmap Webcam::Mat2QPixmap(const cv::Mat& mat) {
     return p;
 }
 
+QString Webcam::getOrdre(){return ordre_;}
+
+void Webcam::setOrdre(QString ordre){ordre_ = ordre;}
+
+
 void Webcam::updateVideo()
 {
     cv::Mat frame,frame_gray;
@@ -72,7 +77,7 @@ void Webcam::updateVideo()
         if (faces.size() == 2)
         {
 
-            // detect with face is the left fist
+            // detect which face is the left fist
             int left;
             int right;
             int delta = 20;
@@ -90,19 +95,24 @@ void Webcam::updateVideo()
             {
                 // Both fist are at the same level
                 qDebug() << "same level";
+                this->ordre_="neutral";
+
             }else if (faces[left].y > faces[right].y + delta)
             {
                 // Left fist is above right (turn left)
                 qDebug() << "turn left";
+                this->ordre_="left";
             }else if (faces[right].y > faces[left].y + delta)
             {
                 // Right fist is above left (turn right)
                 qDebug() << "turn right";
+                this->ordre_="right";
             }
         }else{
             // Didn't detect 2 fist so back to neutral posi
-
             qDebug() << "no 2 fist -> back to neutral posi";
+            this->ordre_="neutral";
+
         }
 
     }
