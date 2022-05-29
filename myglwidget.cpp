@@ -1,5 +1,7 @@
 #include "myglwidget.h"
 #include <QApplication>
+#include <QInputDialog>
+#include <QThread>
 #include <cmath>
 #include <algorithm>
 
@@ -12,6 +14,9 @@ const unsigned int HEIGHT = 391;
 // Constructeur
 MyGLWidget::MyGLWidget(QWidget * parent, Webcam* camera) : QOpenGLWidget(parent)
 {
+    bool ok = false;;
+    nbAste = QInputDialog::getInt(this,"Nombre d'astéroide", "Entrez le nombre d'astéroide (entre 0 et 32) :", 0, 0, 32, 1, &ok);
+
     camera_ = camera;
     // Reglage de la taille/position
     setFixedSize(WIDTH, HEIGHT);
@@ -37,9 +42,17 @@ void MyGLWidget::initializeGL()
     glEnable(GL_DEPTH_TEST);
 
     // Activation de la lumière
-    glEnable(GL_LIGHTING);
+//    glEnable(GL_LIGHTING);
 
-    maVoiture = new Vaisseau();
+
+    maVoiture = new Vaisseau(0,0,-3);
+
+    std::list<asteroide*> lstAsteroide = generateastéroides(nbAste);
+
+    // /!\Générer les coordonnées au hasard
+    int stationx = rand()%(100 + 1) -50;
+    int stationy = rand()%(100 + 1) -50;
+    station = new Station(-9,0,-20);
 }
 
 
@@ -67,17 +80,115 @@ void MyGLWidget::paintGL()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     //Activation des lampes
-    glEnable(GL_LIGHT0);
-    glEnable(GL_LIGHT1);
-    glEnable(GL_LIGHT2);
+//    glEnable(GL_LIGHT0);
+//    glEnable(GL_LIGHT1);
+//    glEnable(GL_LIGHT2);
 
     // Definition de la position de la camera
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     gluLookAt(0.0f, 4.f, 4.f, 0.0f, 0.0f, 0.f, 0.0f, 1.0f, 0.0f);
 
+    // Afficher les astéroides + vérif des collisions
+    std::list<asteroide*>::iterator it;
+    int i = 0;
+    for (it = lstAsteroide.begin(); it != lstAsteroide.end(); it++)
+    {
+        glPushMatrix();
+        (*it)->Display(m_TimeElapsed);
+        i++;
+        glPopMatrix();
+
+        if ( ifCollisionAste((*it)))
+        {
+            qDebug() << "collision asté";
+            //initializeGL();
+        }
+    }
+
     // Affichage de la voiture
     glPushMatrix();
     maVoiture->Display(m_TimeElapsed);
     glPopMatrix();
+
+    //Affichage de la station
+    glPushMatrix();
+    station->Display(m_TimeElapsed);
+    glPopMatrix();
+
+    if ( ifFinDePartie() )
+    {
+        qDebug() << "collisions station";
+         //initializeGL();
+    }
+
+
+}
+
+std::list<asteroide*> MyGLWidget::generateastéroides(int nbmaxAste)
+{
+
+    int nbAsteroide = 0;
+
+    while( nbAsteroide != nbmaxAste)
+    {
+        int x = rand()%(100 + 1) -50;
+        int y = rand()%(100 + 1) -50;
+        int z = rand()%(100 + 1) -100;
+        int radius = rand()%(5 + 1) + 3; // 3<=radius<=8
+
+        std::list<asteroide*>::iterator it;
+        bool flag = true;
+        for (it = lstAsteroide.begin(); it != lstAsteroide.end(); it++)
+        {
+            int iteratorx = (*it)->getx();
+            int iteratory = (*it)->gety();
+            int iteratorz = (*it)->getz();
+            int iteratorradius = (*it)->getradius();
+            // Vérifiacation qu'on ne va pas créer 2 astéroides qui se collisionnent
+            if ((iteratorz - iteratorradius < z) && (z < iteratorz + iteratorradius))
+            {
+                if ((iteratory - iteratorradius < y) && (y < iteratory + iteratorradius))
+                {
+                    if ((iteratorx - iteratorradius < x) && (x < iteratorx + iteratorradius))
+                    {
+                        flag = false;
+                    }
+                }
+            }
+        }
+
+        if (flag == true)
+        {
+            asteroide *aste = new asteroide(x,y,z,radius);
+            lstAsteroide.push_back(aste);
+            nbAsteroide += 1;
+        }
+
+    }
+    qDebug() <<"Fin génération astéroides";
+
+    return lstAsteroide;
+}
+
+bool MyGLWidget::ifCollisionAste(asteroide* aste)
+{
+    //distance = sqrt[(Xa-Xb)²+(Ya-Yb)²+(Za-Zb)²]
+    double distance = pow(pow(maVoiture->getx()-aste->getx(),2)+pow(maVoiture->gety()-aste->gety(),2)+pow(maVoiture->getz()-aste->getz(),2),0.5);
+    if (distance < (maVoiture->getradius() + aste->getradius()))
+    {
+        return true;
+    }
+    return false;
+}
+
+bool MyGLWidget::ifFinDePartie()
+{
+    double distance = pow(pow(maVoiture->getx()-station->getx(),2)+pow(maVoiture->gety()-station->gety(),2)+pow(maVoiture->getz()-station->getz(),2),0.5);
+    if (distance < (maVoiture->getradius() + 9))
+    {
+        qDebug() << distance;
+        return true;
+    }
+    return false;
 }

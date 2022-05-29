@@ -1,21 +1,21 @@
-#ifndef VAISSEAU_H
-#define VAISSEAU_H
-
 #include <qopengl.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <QColor>
-// Classe dediee pour la gestion de la voiture
-class Vaisseau
+
+#ifndef ASTEROIDE_H
+#define ASTEROIDE_H
+
+
+class asteroide
 {
 public:
     // Constructeur avec parametres
-    Vaisseau(int x, int y, int z);
+    asteroide(int x,int y,int z, int radius);
 
     // Destructeur
-    ~Vaisseau();
+    ~asteroide();
 
-    void turn(QString ordre);
     // Methode d'affichage
     void Display(uint64_t iTimeElapsed) const;
 
@@ -25,11 +25,11 @@ public:
     int getradius(){ return this->radius;};
 
 private:
-    GLUquadric * m_Roue { nullptr };
-
     int x;
     int y;
     int z;
     int radius;
+    GLUquadricObj *pObj = gluNewQuadric();
 };
-#endif // VAISSEAU_H
+
+#endif // ASTEROIDE_H

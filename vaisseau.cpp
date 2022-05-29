@@ -1,9 +1,14 @@
 #include "vaisseau.h"
 
-Vaisseau::Vaisseau()
+Vaisseau::Vaisseau(int x, int y, int z)
 {
     // Initialisation des paramètres
     m_Roue = gluNewQuadric();
+
+    this->x = x;
+    this->y = y;
+    this->z = z;
+    this->radius = 5;
 }
 
 Vaisseau::~Vaisseau()
@@ -25,32 +30,33 @@ void Vaisseau::Display(uint64_t iTimeElapsed) const
 {
     // Vaisseau
 
-    GLfloat light_tab[] = {0.25, 0.25, 0.25,0.25};
-    GLfloat light_tab2[] = {0.4, 0.4, 0.4,0.4};
-    GLfloat light_tab3[] = {0.774597, 0.774597, 0.774597,0.774597};
+//    GLfloat light_tab[] = {0.4, 0.4, 0.4,0.25};
+//    GLfloat light_tab2[] = {0.4, 0.4, 0.4,0.4};
+//    GLfloat light_tab3[] = {0.774597, 0.774597, 0.774597,0.774597};
 
-    float shininess = 76.8f;
+//    float shininess = 76.8f;
 
-    GLfloat light_tab4[] = {1.0, 1.0, 1.0, 1.0};
-    GLfloat light_tab5[] = {0.0f, 4.f, 4.f, 1.0};
-    GLfloat light_tab7[] = {-0.75f, -0.75f, 0.1f};
-    GLfloat light_tab8[] = {0.75f, -0.75f, 0.1f};
-
-
-
-    GLfloat jaune[] = {1.f, 1.0, 0.0, 1.0};
-
-    glLightfv(GL_LIGHT0,GL_POSITION,light_tab5);
-    glLightfv(GL_LIGHT0,GL_AMBIENT, light_tab4);
-    glLightfv(GL_LIGHT0,GL_DIFFUSE, light_tab4);
-    glLightfv(GL_LIGHT0,GL_SPECULAR, light_tab4);
+//    GLfloat light_tab4[] = {1.0, 1.0, 1.0, 1.0};
+//    GLfloat light_tab5[] = {0.0f, 4.f, 4.f, 1.0};
+//    GLfloat light_tab7[] = {-0.75f, -0.75f, 0.1f};
+//    GLfloat light_tab8[] = {0.75f, -0.75f, 0.1f};
 
 
-    glMaterialfv(GL_FRONT,GL_AMBIENT, light_tab);
-    glMaterialfv(GL_FRONT,GL_DIFFUSE, light_tab2);
-    glMaterialfv(GL_FRONT,GL_SPECULAR, light_tab3);
-    glMaterialf(GL_FRONT,GL_SHININESS, shininess);
 
+//    GLfloat jaune[] = {1.f, 1.0, 1.0, 1.0};
+
+//    glLightfv(GL_LIGHT0,GL_POSITION,light_tab5);
+//    glLightfv(GL_LIGHT0,GL_AMBIENT, light_tab4);
+//    glLightfv(GL_LIGHT0,GL_DIFFUSE, light_tab4);
+//    glLightfv(GL_LIGHT0,GL_SPECULAR, light_tab4);
+
+
+//    glMaterialfv(GL_FRONT,GL_AMBIENT, light_tab);
+//    glMaterialfv(GL_FRONT,GL_DIFFUSE, light_tab2);
+//    glMaterialfv(GL_FRONT,GL_SPECULAR, light_tab3);
+//    glMaterialf(GL_FRONT,GL_SHININESS, shininess);
+
+    glTranslatef(this->x,this->y,this->z);
 
     glBegin(GL_QUADS);
     glColor3ub(100, 0, 0);
@@ -131,22 +137,24 @@ void Vaisseau::Display(uint64_t iTimeElapsed) const
     gluDisk(m_Roue, 0.0, 0.5, 30, 1);
     glPopMatrix();
 
-    if(iTimeElapsed%10 == 0){
-        glPushMatrix();
-        gluQuadricDrawStyle(m_Roue,GLU_FILL);
-        glNormal3f(0.0,0.0,1.0);
+//    if(iTimeElapsed%10 == 0){
+//        glPushMatrix();
+//        gluQuadricDrawStyle(m_Roue,GLU_FILL);
+//        glNormal3f(0.0,0.0,1.0);
 
-        glLightfv(GL_LIGHT1,GL_POSITION,light_tab7);
-        glLightfv(GL_LIGHT2,GL_POSITION,light_tab8);
-        glLightfv(GL_LIGHT1,GL_DIFFUSE, jaune);
-        glLightfv(GL_LIGHT2,GL_DIFFUSE, jaune);
+//        glLightfv(GL_LIGHT1,GL_POSITION,light_tab7);
+//        glLightfv(GL_LIGHT2,GL_POSITION,light_tab8);
+//        glLightfv(GL_LIGHT1,GL_DIFFUSE, jaune);
+//        glLightfv(GL_LIGHT2,GL_DIFFUSE, jaune);
 
-        glMaterialfv(GL_FRONT,GL_DIFFUSE, jaune);
+//        glMaterialfv(GL_FRONT,GL_DIFFUSE, jaune);
 
-        glTranslatef(-0.75f, -0.75f, 0.1f);
-        gluDisk(m_Roue, 0.0, 0.25, 30, 1);
-        glTranslatef(1.5f, 0.f, 0.f);
-        gluDisk(m_Roue, 0.0, 0.25, 30, 1);
-        glPopMatrix();
-    }
+//        glTranslatef(-0.75f, -0.75f, 0.1f);
+//        gluDisk(m_Roue, 0.0, 0.25, 30, 1);
+//        glTranslatef(1.5f, 0.f, 0.f);
+//        gluDisk(m_Roue, 0.0, 0.25, 30, 1);
+//        glPopMatrix();
+//    }
+
+    glColor3ub(0,0,0);
 }
