@@ -49,7 +49,8 @@ void Webcam::updateVideo()
     frame_ = frame;
    // std::cout << "taille_avant : " << frame_.rows << std::endl;
 
-    std::vector<Rect> faces;
+    std::vector<Rect> fists;
+    std::vector<Rect> palms;
     // Get frame
     // Mirror effect
     cv::flip(frame,frame,1);
@@ -57,24 +58,56 @@ void Webcam::updateVideo()
     cv::cvtColor(frame,frame_gray,COLOR_BGR2GRAY);
     // Equalize graylevels
     // equalizeHist( frame_gray, frame_gray );
-    CascadeClassifier face_cascade;
-    if( !face_cascade.load( "../Projet-Ast-ro-TSE/closed_frontal_palm.xml" ) )
+    CascadeClassifier face_cascade_fist;
+    CascadeClassifier face_cascade_palm;
+
+    if( !face_cascade_fist.load( "../Projet-Ast-ro-TSE/fist_v3.xml" ) )
     {
-        cerr<<"Error loading haarcascade"<<endl;
+        cerr<<"Error loading haarcascade fist"<<endl;
+        return;
+    }
+    if( !face_cascade_palm.load( "../Projet-Ast-ro-TSE/palm_v4.xml" ) )
+    {
+        cerr<<"Error loading haarcascade palm"<<endl;
         return;
     }
     //-- Detect faces
-    face_cascade.detectMultiScale( frame_gray, faces, 1.1, 4, 0|CASCADE_SCALE_IMAGE, Size(60, 60) );
+    face_cascade_fist.detectMultiScale( frame_gray, fists, 1.1, 4, 0|CASCADE_SCALE_IMAGE, Size(60, 60) );
+    face_cascade_palm.detectMultiScale( frame_gray, palms, 1.1, 4, 0|CASCADE_SCALE_IMAGE, Size(60, 60) );
 
-    if (faces.size()>0)
+    if (fists.size()>0 || palms.size() > 0)
     {
         // Draw green rectangle
-        for (int i=0;i<(int)faces.size();i++)
+        for (int i=0;i<(int)fists.size();i++)
         {
-            rectangle(frame,faces[i],Scalar(0,255,0),2);
+            rectangle(frame,fists[i],Scalar(0,255,0),2);
             //qDebug() << "top left :" << faces[i].x << "," << faces[i].y;
         }
-        if (faces.size() == 2)
+        for (int i=0;i<(int)palms.size();i++)
+        {
+            rectangle(frame,palms[i],Scalar(0,255,0),2);
+            //qDebug() << "top left :" << faces[i].x << "," << faces[i].y;
+        }
+        if(palms.size() == 2){
+            int left_p;
+            int right_p;
+            int delta_p = 20;
+            if (palms[0].x < palms[1].x)
+            {
+                left_p = 0;
+                right_p = 1;
+            }else{
+                left_p = 1;
+                right_p = 0;
+            }
+            if (palms[left_p].y > palms[right_p].y-delta_p && palms[left_p].y < palms[right_p].y+delta_p)
+            {
+                // Both fist are at the same level
+                qDebug() << "palms same level";
+                this->ordre_="neutral_p";
+            }
+        }
+        if (fists.size() == 2)
         {
 
             // detect which face is the left fist
@@ -82,7 +115,7 @@ void Webcam::updateVideo()
             int right;
             int delta = 20;
 
-            if (faces[0].x < faces[1].x)
+            if (fists[0].x < fists[1].x)
             {
                 left = 0;
                 right = 1;
@@ -91,18 +124,18 @@ void Webcam::updateVideo()
                 right = 0;
             }
 
-            if (faces[left].y > faces[right].y-delta && faces[left].y < faces[right].y+delta)
+            if (fists[left].y > fists[right].y-delta && fists[left].y < fists[right].y+delta)
             {
                 // Both fist are at the same level
                 qDebug() << "same level";
                 this->ordre_="neutral";
 
-            }else if (faces[left].y > faces[right].y + delta)
+            }else if (fists[left].y > fists[right].y + delta)
             {
                 // Left fist is above right (turn left)
                 qDebug() << "turn left";
                 this->ordre_="left";
-            }else if (faces[right].y > faces[left].y + delta)
+            }else if (fists[right].y > fists[left].y + delta)
             {
                 // Right fist is above left (turn right)
                 qDebug() << "turn right";
