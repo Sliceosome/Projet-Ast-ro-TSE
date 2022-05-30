@@ -60,7 +60,7 @@ void Webcam::updateVideo()
     CascadeClassifier face_cascade_fist;
     CascadeClassifier face_cascade_palm;
 
-    if( !face_cascade_fist.load( "./fist_v3.xml" ) )
+    if( !face_cascade_fist.load( "../Projet-Ast-ro-TSE/closed_frontal_palm.xml" ) )
     {
         cerr<<"Error loading haarcascade fist"<<endl;
         return;
