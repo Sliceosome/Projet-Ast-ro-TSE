@@ -10,29 +10,23 @@
 #include <QTimer>
 #include "myglwidget.h"
 
-
-
-//using namespace cv;
-//using namespace std;
-
 class Webcam : public QWidget
 {
     Q_OBJECT
 public:
-    explicit Webcam(QWidget *parent = nullptr, MyGLWidget *gl= nullptr);
-    QPixmap Mat2QPixmap(const cv::Mat& mat);
-    cv::Mat GetFrame();
-    QString getOrdre();
+    explicit Webcam(QWidget *parent = nullptr, MyGLWidget *gl= nullptr);    //Constructeur de la webcam
+    QPixmap Mat2QPixmap(const cv::Mat& mat);    //Transforme une matrice de OpenCV provenant de la webcam en une image affichée dans l'application
+    cv::Mat GetFrame(); //Récupère la frame courante du VidéoCapture
+    QString getOrdre(); //getter-setter de l'ordre donnée par OpenCV pour le déplacement du vaisseau
     void setOrdre(QString ordre){this->ordre_=ordre;}
-    void sendOrdre();
 
 
 private slots:
-    void updateVideo();
+    void updateVideo(); //Slot d'update de la frame du VidéoCapture qu'on affiche
 
 
 private:
-    cv::Mat frame_;
+    cv::Mat frame_;     //Stockage des différents élements de la classe de la webcam
     cv::VideoCapture cap_;
     QString ordre_;
     MyGLWidget* gl_ = nullptr;

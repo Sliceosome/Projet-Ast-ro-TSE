@@ -40,11 +40,6 @@ QPixmap Webcam::Mat2QPixmap(const cv::Mat& mat) {
 
 QString Webcam::getOrdre(){return ordre_;}
 
-void Webcam::sendOrdre(){
-    cout << "gneu1" << endl;
-    this->gl_->setOrder(this->ordre_);
-}
-
 
 void Webcam::updateVideo()
 {

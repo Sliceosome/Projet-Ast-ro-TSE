@@ -13,11 +13,10 @@ const unsigned int HEIGHT = 391;
 
 
 // Constructeur
-MyGLWidget::MyGLWidget(QWidget * parent/*, Webcam* camera*/) : QOpenGLWidget(parent)
+MyGLWidget::MyGLWidget(QWidget * parent) : QOpenGLWidget(parent)
 {
     bool ok = false;
     nbAste = QInputDialog::getInt(this,"Nombre d'astéroide", "Entrez le nombre d'astéroide (entre 0 et 32) :", 0, 0, 32, 1, &ok);
- //   camera_ = camera;
 
     // Reglage de la taille/position
     setFixedSize(WIDTH, HEIGHT);
@@ -53,8 +52,8 @@ void MyGLWidget::initializeGL()
     // /!\Générer les coordonnées au hasard
     int stationx = rand()%(100 + 1) -50;
     int stationy = rand()%(100 + 1) -50;
-    station->setx(0);
-    station->sety(0);
+    station->setx(stationx);
+    station->sety(stationy);
 }
 
 
@@ -78,35 +77,28 @@ void MyGLWidget::resizeGL(int width, int height)
 void MyGLWidget::setAngle(){
     if(ordre == "right" || ordre == "left"){
         if(ordre == "right")
-            this->angleY--;
+            this->angleX--;
         else
-            this->angleY++;
+            this->angleX++;
     }if(ordre == "high" || ordre == "low"){
         if(ordre == "high")
-            this->angleX++;
+            this->angleY++;
         else
-            this->angleX--;
+            this->angleY--;
     }if(ordre == "advance"){
         this->profondeurZ--;
     }
 }
 
 void MyGLWidget::readOrder(){
-    //std::cout << ordre.toStdString() << std::endl;
         glPushMatrix();
         setAngle();
-        glRotated(this->angleX,1,0,0);
-        glRotated(this->angleY,0,1,0);
-//        //glTranslatef(0,0,this->profondeurZ);
         maVoiture->setProf(profondeurZ);
         maVoiture->setPhi(angleY);
         maVoiture->setTheta(angleX);
         glTranslatef(maVoiture->getx(),maVoiture->gety(),maVoiture->getz());
+        setPosCam(maVoiture->getx(),maVoiture->gety(),maVoiture->getz());
         maVoiture->Display();
-//        qDebug() << maVoiture->getz();
-//        qDebug() << maVoiture->gety();
-//        qDebug() << maVoiture->getx();
-
         glPopMatrix();
 }
 
@@ -118,9 +110,7 @@ void MyGLWidget::paintGL()
     // Definition de la position de la camera
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    //gluLookAt(0.0f, 1.f,10.f, 0.0f, -1.0f, -5.0f, 0.0f, 1.0f, 0.0f);
-    //gluLookAt(maVoiture->getx(), maVoiture->gety()+2,maVoiture->getz()+15, maVoiture->getx()+profondeurZ*std::sin(angleX)*std::cos(angleY), maVoiture->gety()+profondeurZ*std::sin(angleX)*std::sin(angleY), maVoiture->getz()+profondeurZ*std::cos(angleX), 0.0f, 1.0f, 0.0f);
-    gluLookAt(maVoiture->getx(), maVoiture->gety()+2, maVoiture->getz()+20, maVoiture->getx(),maVoiture->gety(), maVoiture->getz(), 0.0f,1.0f,0.0f);
+    gluLookAt(x_, y_+2, z_+15, x_,y_, z_, 0.0f,1.0f,0.0f);
 
     // Afficher les astéroides + vérif des collisions
     std::list<asteroide*>::iterator it;
@@ -226,7 +216,7 @@ bool MyGLWidget::ifFinDePartie()
         qDebug() << "Vaisseau.x = " << maVoiture->getx() << "Vaisseau.y = " << maVoiture->gety() << "Vaisseau.z = " << maVoiture->getz() ;
         qDebug() << "Station.x = " << station->getx() << "Aste.y = " << station->gety() << "Aste.z = " << station->getz();
         qDebug() << distance;
-        return true;
+        return false;
     }
     return false;
 }
@@ -237,14 +227,12 @@ void MyGLWidget::reset()
 
     int stationx = rand()%(100 + 1) -50;
     int stationy = rand()%(100 + 1) -50;
+    int stationz = rand()%(100 + 1) -50;
 
-    station->setx(0);
-    station->sety(2);
-    station->setz(-30);
+    station->setx(stationx);
+    station->sety(stationy);
+    station->setz(stationz);
 
-//    maVoiture->setx(0);
-//    maVoiture->sety(-1);
-//    maVoiture->setz(-3);
     this->profondeurZ = 0;
     this->angleX = 0;
     this->angleY = 0;

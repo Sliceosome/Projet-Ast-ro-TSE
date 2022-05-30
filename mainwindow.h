@@ -16,16 +16,15 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+    MainWindow(QWidget *parent = nullptr);  //Constructeur
+    ~MainWindow();  //Destructeur
 
 private slots:
-    void update_all();
+    void update_all();      //Slot pour l'update de tout le jeu (le widget OpenGL et la Webcam)
 
 private:
-    Ui::MainWindow *ui;
+    Ui::MainWindow *ui; //Eléments nécessaires à la classe
     Webcam *camera_;
     MyGLWidget *GlWidget;
-    QString ordre_displayed = "neutral";
 };
 #endif // MAINWINDOW_H

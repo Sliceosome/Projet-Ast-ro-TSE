@@ -19,14 +19,14 @@ Vaisseau::~Vaisseau()
 }
 
 float Vaisseau::getx(){
-   // std::cout <<"gneu : " <<prof*std::sin((theta*M_PI)/180.f)*std::cos((phi*M_PI)/180)<<std::endl;
-    return prof*std::sin((theta*M_PI)/180)*std::cos((phi*M_PI)/180);
+    std::cout << (0.000000000001+prof)*std::sin((theta*M_PI)/180)*std::cos((phi*M_PI)/180) << std::endl;
+    return (0.000000000001+prof)*std::sin((theta*M_PI)/180)*std::cos((phi*M_PI)/180);
 }
 float Vaisseau::gety(){
-    return prof*std::sin((theta*M_PI)/180)*std::sin((phi*M_PI)/180)-1;
+    return (0.000000000001+prof)*std::sin((theta*M_PI)/180)*std::sin((phi*M_PI)/180)-1;
 }
 float Vaisseau::getz(){
-    return prof*std::cos((theta*M_PI)/180)-5;
+    return (0.000000000001+prof)*std::cos((theta*M_PI)/180)-5;
 }
 
 void Vaisseau::Display()
