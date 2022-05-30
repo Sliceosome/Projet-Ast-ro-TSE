@@ -9,6 +9,11 @@
 #include <iostream>
 #include <QDebug>
 
+#include <iostream>
+#include <string>
+#include <filesystem>
+#include <unistd.h>
+
 using namespace cv;
 using namespace std;
 
@@ -61,12 +66,14 @@ void Webcam::updateVideo()
     CascadeClassifier face_cascade_fist;
     CascadeClassifier face_cascade_palm;
 
-    if( !face_cascade_fist.load( "../Projet-Ast-ro-TSE/fist_v3.xml" ) )
+    if( !face_cascade_fist.load( "./fist_v3.xml" ) )
     {
-        cerr<<"Error loading haarcascade fist"<<endl;
+        char tmp[256];
+        getcwd(tmp,256);
+        cerr<<"Error loading haarcascade fist "<<tmp<<endl;
         return;
     }
-    if( !face_cascade_palm.load( "../Projet-Ast-ro-TSE/palm_v4.xml" ) )
+    if( !face_cascade_palm.load( "./palm_v4.xml" ) )
     {
         cerr<<"Error loading haarcascade palm"<<endl;
         return;
