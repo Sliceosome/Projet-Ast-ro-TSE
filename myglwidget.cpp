@@ -97,11 +97,16 @@ void MyGLWidget::readOrder(){
         setAngle();
         glRotated(this->angleX,1,0,0);
         glRotated(this->angleY,0,1,0);
-        glTranslatef(0,0,this->profondeurZ);
+//        //glTranslatef(0,0,this->profondeurZ);
         maVoiture->setProf(profondeurZ);
         maVoiture->setPhi(angleY);
         maVoiture->setTheta(angleX);
+        glTranslatef(maVoiture->getx(),maVoiture->gety(),maVoiture->getz());
         maVoiture->Display();
+        qDebug() << maVoiture->getz();
+        qDebug() << maVoiture->gety();
+        qDebug() << maVoiture->getx();
+
         glPopMatrix();
 }
 
@@ -235,11 +240,14 @@ void MyGLWidget::reset()
 
     station->setx(0);
     station->sety(2);
-    station->setz(-20);
+    station->setz(-30);
 
-    maVoiture->setx(0);
-    maVoiture->sety(-1);
-    maVoiture->setz(-3);
+//    maVoiture->setx(0);
+//    maVoiture->sety(-1);
+//    maVoiture->setz(-3);
+    this->profondeurZ = 0;
+    this->angleX = 0;
+    this->angleY = 0;
 
     lstAsteroide.clear();
     generateastéroides(nbAste);

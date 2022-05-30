@@ -23,7 +23,7 @@ Vaisseau::~Vaisseau()
 }
 
 int Vaisseau::getx(){
-    //std::cout <<prof << " et : " << theta << " et : " << phi << std::endl;
+   // std::cout <<"gneu : " <<prof*std::sin((theta*M_PI)/180.f)*std::cos((phi*M_PI)/180)<<std::endl;
     return prof*std::sin((theta*M_PI)/180)*std::cos((phi*M_PI)/180);
 }
 int Vaisseau::gety(){
@@ -55,7 +55,7 @@ void Vaisseau::Display()
     //Cylindre gauche
 
     glMaterialfv(GL_FRONT_AND_BACK,GL_EMISSION,val_vaiss);
-    glTranslatef(x, y, z);
+    glTranslatef(getx()-3, gety()-1, getz()-5);
     glRotated(90.0, 0., 1., 0.);
     gluCylinder(m_Roue, 5, 5, 1, 32, 32);
     glTranslatef(-0.01f, 0.f, 0.f);
@@ -75,10 +75,10 @@ void Vaisseau::Display()
 
     glBegin(GL_QUADS);
     glNormal3f(0.0,0.0,1.0);
-    glVertex3d(x+radius,y+1,z);
-    glVertex3d(x+radius,y-1,z);
-    glVertex3d(x-2,y-1,z);
-    glVertex3d(x-2,y+1,z);
+    glVertex3d(getx()+2,gety()+1,getz());
+    glVertex3d(getx()+2,gety()-1,getz());
+    glVertex3d(getx()-4,gety()-1,getz());
+    glVertex3d(getx()-4,gety()+1,getz());
     glEnd();
     //glDisable(GL_LIGHT0);
 }

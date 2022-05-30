@@ -49,7 +49,7 @@ protected:
     void keyPressEvent(QKeyEvent *event)
     {
          qDebug() << "key pressed";
-         station->setz(0);
+         station->setz(maVoiture->getz());
      }
 
 private:
