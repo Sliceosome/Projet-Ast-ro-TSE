@@ -9,27 +9,30 @@
 class Vaisseau
 {
 public:
-    // Constructeur avec parametres
     Vaisseau(int x, int y, int z);
-
-    // Destructeur
+    void Display();
     ~Vaisseau();
+
+    void setx(float x_){this->x=x_-3;}
+    void sety(float y_){this->y=y_;}
+    void setz(float z_){this->z=z_;}
 
     void turn(QString ordre);
     // Methode d'affichage
-    void Display(uint64_t iTimeElapsed) const;
 
-    int getx() { return this->x;};
+    int getx() { return this->x+3;};
+    int getx_gauche() { return this->x;};
     int gety(){ return this->y;};
-    int getz(){ return this->y;};
+    int getz(){ return this->z;};
     int getradius(){ return this->radius;};
 
 private:
     GLUquadric * m_Roue { nullptr };
+    GLUquadric * m_Roue2 { nullptr };
 
-    int x;
-    int y;
-    int z;
-    int radius;
+    float x = -3.f;
+    float y = -1.f;
+    float z = -5.f;
+    int radius = 6;
 };
 #endif // VAISSEAU_H

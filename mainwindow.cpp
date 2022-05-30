@@ -16,6 +16,8 @@ void MainWindow::update_all(){
     QPixmap *pixmap = new QPixmap(camera_->Mat2QPixmap(camera_->GetFrame()));
     //*pixmap = pixmap->scaled(cv::CAP_PROP_FRAME_WIDTH, (int)((double)cv::CAP_PROP_FRAME_HEIGHT*(2/3)),Qt::KeepAspectRatio, Qt::FastTransformation);
     ui->label->setPixmap(*pixmap);
+    //std::cout << camera_->getOrdre().toStdString()<<std::endl;
+    ui->openGLWidget->setOrder(camera_->getOrdre());
     if(this->ordre_displayed != camera_->getOrdre())
         ui->GameStats->addItem(camera_->getOrdre());
 };

@@ -8,6 +8,8 @@
 #include <opencv2/core/core.hpp>
 #include <iostream>
 #include <QTimer>
+#include "myglwidget.h"
+
 
 
 //using namespace cv;
@@ -17,11 +19,12 @@ class Webcam : public QWidget
 {
     Q_OBJECT
 public:
-    explicit Webcam(QWidget *parent = nullptr);
+    explicit Webcam(QWidget *parent = nullptr, MyGLWidget *gl= nullptr);
     QPixmap Mat2QPixmap(const cv::Mat& mat);
     cv::Mat GetFrame();
     QString getOrdre();
-    void setOrdre(QString ordre);
+    void setOrdre(QString ordre){this->ordre_=ordre;}
+    void sendOrdre();
 
 
 private slots:
@@ -32,6 +35,7 @@ private:
     cv::Mat frame_;
     cv::VideoCapture cap_;
     QString ordre_;
+    MyGLWidget* gl_ = nullptr;
 };
 
 #endif // WEBCAM_H

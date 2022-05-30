@@ -9,17 +9,13 @@
 #include <iostream>
 #include <QDebug>
 
-#include <iostream>
-#include <string>
-#include <filesystem>
-#include <unistd.h>
-
 using namespace cv;
 using namespace std;
 
-Webcam::Webcam(QWidget *parent)
+Webcam::Webcam(QWidget *parent, MyGLWidget *gl)
     : QWidget{parent}, cap_(0)
 {
+    gl_ = gl;
     cap_.set(cv::CAP_PROP_FRAME_WIDTH,640);
     cap_.set(cv::CAP_PROP_FRAME_HEIGHT,360);
     std::cout<<"width: "<<cap_.get(cv::CAP_PROP_FRAME_WIDTH)<<std::endl;
@@ -44,7 +40,10 @@ QPixmap Webcam::Mat2QPixmap(const cv::Mat& mat) {
 
 QString Webcam::getOrdre(){return ordre_;}
 
-void Webcam::setOrdre(QString ordre){ordre_ = ordre;}
+void Webcam::sendOrdre(){
+    cout << "gneu1" << endl;
+    this->gl_->setOrder(this->ordre_);
+}
 
 
 void Webcam::updateVideo()
@@ -68,9 +67,7 @@ void Webcam::updateVideo()
 
     if( !face_cascade_fist.load( "./fist_v3.xml" ) )
     {
-        char tmp[256];
-        getcwd(tmp,256);
-        cerr<<"Error loading haarcascade fist "<<tmp<<endl;
+        cerr<<"Error loading haarcascade fist"<<endl;
         return;
     }
     if( !face_cascade_palm.load( "./palm_v4.xml" ) )
@@ -109,12 +106,12 @@ void Webcam::updateVideo()
             }
             if (palms[left_p].y > palms[right_p].y-delta_p && palms[left_p].y < palms[right_p].y+delta_p)
             {
-                // Both fist are at the same level
-                qDebug() << "palms same level";
-                this->ordre_="neutral_p";
+                // Both palms are at the same level
+                //qDebug() << "palms same level";
+                this->ordre_="advance";
             }
         }
-        if (fists.size() == 2)
+        else if (fists.size() == 2)
         {
 
             // detect which face is the left fist
@@ -133,26 +130,32 @@ void Webcam::updateVideo()
 
             if (fists[left].y > fists[right].y-delta && fists[left].y < fists[right].y+delta)
             {
+                if(fists[left].y > 150+delta){
+                    this->ordre_= "low";
+
+                }else if(fists[left].y < 150-3*delta){
+                    this->ordre_= "high";
+
+                }else{
                 // Both fist are at the same level
-                qDebug() << "same level";
-                this->ordre_="neutral";
+                this->ordre_="neutral";}
 
             }else if (fists[left].y > fists[right].y + delta)
             {
                 // Left fist is above right (turn left)
-                qDebug() << "turn left";
+                //qDebug() << "turn left";
                 this->ordre_="left";
             }else if (fists[right].y > fists[left].y + delta)
             {
                 // Right fist is above left (turn right)
-                qDebug() << "turn right";
+                //qDebug() << "turn right";
                 this->ordre_="right";
             }
+
         }else{
             // Didn't detect 2 fist so back to neutral posi
-            qDebug() << "no 2 fist -> back to neutral posi";
+            //qDebug() << "no 2 fist -> back to neutral posi";
             this->ordre_="neutral";
-
         }
 
     }

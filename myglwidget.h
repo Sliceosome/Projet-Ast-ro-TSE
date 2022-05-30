@@ -7,7 +7,7 @@
 #include <QOpenGLWidget>
 #include <QKeyEvent>
 #include <QTimer>
-#include "webcam.h"
+//#include "webcam.h"
 
 // Classe dediee a l'affichage d'une scene OpenGL
 class MyGLWidget : public QOpenGLWidget
@@ -15,7 +15,10 @@ class MyGLWidget : public QOpenGLWidget
 public:
 
     // Constructeur
-    MyGLWidget(QWidget * parent = nullptr, Webcam* camera = nullptr);
+    MyGLWidget(QWidget * parent = nullptr/*, Webcam* camera = nullptr*/);
+    void setOrder(QString order){this->ordre = order;}
+    void setAngle();
+
 
 protected:
 
@@ -37,6 +40,8 @@ protected:
     //Gestion arrivé à la station
     bool ifFinDePartie();
 
+    void readOrder();
+
 private:
     Vaisseau* maVoiture = nullptr;
     int nbAste;
@@ -45,7 +50,12 @@ private:
 
     float m_TimeElapsed { 0.0f };
     QTimer m_AnimationTimer;
-    Webcam* camera_ = nullptr;
+   // Webcam* camera_ = nullptr;
+    QString ordre;
+    float angleX = 0.f;
+    float angleY = 0.f;
+    float profondeurZ = 0.f;
+
 };
 
 #endif // MYGLWIDGET_H

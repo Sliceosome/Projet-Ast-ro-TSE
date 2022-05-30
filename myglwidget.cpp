@@ -4,6 +4,7 @@
 #include <QThread>
 #include <cmath>
 #include <algorithm>
+#include <iostream>
 
 
 // Declarations des constantes
@@ -12,12 +13,12 @@ const unsigned int HEIGHT = 391;
 
 
 // Constructeur
-MyGLWidget::MyGLWidget(QWidget * parent, Webcam* camera) : QOpenGLWidget(parent)
+MyGLWidget::MyGLWidget(QWidget * parent/*, Webcam* camera*/) : QOpenGLWidget(parent)
 {
     bool ok = false;
     nbAste = QInputDialog::getInt(this,"Nombre d'astéroide", "Entrez le nombre d'astéroide (entre 0 et 32) :", 0, 0, 32, 1, &ok);
+ //   camera_ = camera;
 
-    camera_ = camera;
     // Reglage de la taille/position
     setFixedSize(WIDTH, HEIGHT);
 
@@ -36,16 +37,15 @@ MyGLWidget::MyGLWidget(QWidget * parent, Webcam* camera) : QOpenGLWidget(parent)
 void MyGLWidget::initializeGL()
 {
     // Reglage de la couleur de fond
-    glClearColor(0.0f, 0.4f, 0.6f, 0.0f);
+    glClearColor(0.0f, 0.0f, 0.1f, 0.0f);
 
     // Activation du zbuffer
     glEnable(GL_DEPTH_TEST);
 
     // Activation de la lumière
-//    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHTING);
 
-
-    maVoiture = new Vaisseau(0,0,-3);
+    maVoiture = new Vaisseau(0,-1,-5);
 
     std::list<asteroide*> lstAsteroide = generateastéroides(nbAste);
 
@@ -73,21 +73,42 @@ void MyGLWidget::resizeGL(int width, int height)
     glLoadIdentity();
 }
 
+void MyGLWidget::setAngle(){
+    if(ordre == "right" || ordre == "left"){
+        if(ordre == "right")
+            this->angleY--;
+        else
+            this->angleY++;
+    }if(ordre == "high" || ordre == "low"){
+        if(ordre == "high")
+            this->angleX++;
+        else
+            this->angleX--;
+    }if(ordre == "advance"){
+        this->profondeurZ--;
+    }
+}
+
+void MyGLWidget::readOrder(){
+    //std::cout << ordre.toStdString() << std::endl;
+        glPushMatrix();
+        setAngle();
+        glRotated(this->angleX,1,0,0);
+        glRotated(this->angleY,0,1,0);
+        glTranslatef(0,0,this->profondeurZ);
+        maVoiture->Display();
+        glPopMatrix();
+}
+
 // Fonction d'affichage
 void MyGLWidget::paintGL()
 {
     // Reinitialisation des tampons
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    //Activation des lampes
-//    glEnable(GL_LIGHT0);
-//    glEnable(GL_LIGHT1);
-//    glEnable(GL_LIGHT2);
-
     // Definition de la position de la camera
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    gluLookAt(0.0f, 4.f, 4.f, 0.0f, 0.0f, 0.f, 0.0f, 1.0f, 0.0f);
+    gluLookAt(0.0f, 1.f,10.f, 0.0f, -1.0f, -5.0f, 0.0f, 1.0f, 0.0f);
 
     // Afficher les astéroides + vérif des collisions
     std::list<asteroide*>::iterator it;
@@ -107,9 +128,7 @@ void MyGLWidget::paintGL()
     }
 
     // Affichage de la voiture
-    glPushMatrix();
-    maVoiture->Display(m_TimeElapsed);
-    glPopMatrix();
+    readOrder();
 
     //Affichage de la station
     glPushMatrix();
