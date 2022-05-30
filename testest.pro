@@ -27,7 +27,9 @@ SOURCES += \
     mainwindow.cpp \
     myglwidget.cpp \
     vaisseau.cpp \
-    webcam.cpp
+    webcam.cpp \
+    asteroide.cpp \
+    station.cpp
 
 INCLUDEPATH +=$$(OPENCV_DIR)\..\..\include
 
@@ -44,7 +46,9 @@ HEADERS += \
     mainwindow.h \
     myglwidget.h \
     vaisseau.h \
-    webcam.h
+    webcam.h \
+    asteroide.h \
+    station.h
 
 FORMS += \
     mainwindow.ui
