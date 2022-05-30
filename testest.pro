@@ -23,12 +23,9 @@ else {
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    asteroide.cpp \
     main.cpp \
     mainwindow.cpp \
     myglwidget.cpp \
-    station.cpp \
-    stb_image.cpp \
     vaisseau.cpp \
     webcam.cpp \
     asteroide.cpp \
@@ -46,10 +43,8 @@ LIBS += -L$$(OPENCV_DIR)/lib \
     -lopencv_objdetect455
 
 HEADERS += \
-    asteroide.h \
     mainwindow.h \
     myglwidget.h \
-    station.h \
     vaisseau.h \
     webcam.h \
     asteroide.h \
