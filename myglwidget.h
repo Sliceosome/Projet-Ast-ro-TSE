@@ -44,6 +44,13 @@ protected:
     
     //Gestion du reset du jeu
     void reset();
+    
+    //Instant win
+    void keyPressEvent(QKeyEvent *event)
+    {
+         qDebug() << "key pressed";
+         station->setz(0);
+     }
 
 private:
     Vaisseau* maVoiture = nullptr;
