@@ -96,6 +96,9 @@ void MyGLWidget::readOrder(){
         glRotated(this->angleX,1,0,0);
         glRotated(this->angleY,0,1,0);
         glTranslatef(0,0,this->profondeurZ);
+        maVoiture->setProf(profondeurZ);
+        maVoiture->setPhi(angleY);
+        maVoiture->setTheta(angleX);
         maVoiture->Display();
         glPopMatrix();
 }
@@ -108,7 +111,9 @@ void MyGLWidget::paintGL()
     // Definition de la position de la camera
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    gluLookAt(0.0f, 1.f,10.f, 0.0f, -1.0f, -5.0f, 0.0f, 1.0f, 0.0f);
+    //gluLookAt(0.0f, 1.f,10.f, 0.0f, -1.0f, -5.0f, 0.0f, 1.0f, 0.0f);
+    //gluLookAt(maVoiture->getx(), maVoiture->gety()+2,maVoiture->getz()+15, maVoiture->getx()+profondeurZ*std::sin(angleX)*std::cos(angleY), maVoiture->gety()+profondeurZ*std::sin(angleX)*std::sin(angleY), maVoiture->getz()+profondeurZ*std::cos(angleX), 0.0f, 1.0f, 0.0f);
+    gluLookAt(maVoiture->getx(), maVoiture->gety()+2, maVoiture->getz()+20, maVoiture->getx(),maVoiture->gety(), maVoiture->getz(), 0.0f,1.0f,0.0f);
 
     // Afficher les astéroides + vérif des collisions
     std::list<asteroide*>::iterator it;

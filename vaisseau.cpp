@@ -1,4 +1,6 @@
 #include "vaisseau.h"
+#include <iostream>
+
 
 Vaisseau::Vaisseau(int x, int y, int z)
 {
@@ -18,6 +20,17 @@ Vaisseau::~Vaisseau()
         gluDeleteQuadric(m_Roue);
     if(m_Roue2)
         gluDeleteQuadric(m_Roue2);
+}
+
+int Vaisseau::getx(){
+    //std::cout <<prof << " et : " << theta << " et : " << phi << std::endl;
+    return prof*std::sin((theta*M_PI)/180)*std::cos((phi*M_PI)/180);
+}
+int Vaisseau::gety(){
+    return prof*std::sin((theta*M_PI)/180)*std::sin((phi*M_PI)/180)-1;
+}
+int Vaisseau::getz(){
+    return prof*std::cos((theta*M_PI)/180)-5;
 }
 
 void Vaisseau::turn(QString ordre){
