@@ -36,6 +36,7 @@ MyGLWidget::MyGLWidget(QWidget * parent/*, Webcam* camera*/) : QOpenGLWidget(par
 // Fonction d'initialisation
 void MyGLWidget::initializeGL()
 {
+    setFocusPolicy( Qt::StrongFocus );
     // Reglage de la couleur de fond
     glClearColor(0.0f, 0.0f, 0.1f, 0.0f);
 
