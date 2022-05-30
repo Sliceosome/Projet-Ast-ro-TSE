@@ -224,7 +224,6 @@ bool MyGLWidget::ifFinDePartie()
         return true;
     }
     return false;
-}rn false;
 }
 
 void MyGLWidget::reset()
