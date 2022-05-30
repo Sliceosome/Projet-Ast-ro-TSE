@@ -14,7 +14,7 @@ const unsigned int HEIGHT = 391;
 // Constructeur
 MyGLWidget::MyGLWidget(QWidget * parent, Webcam* camera) : QOpenGLWidget(parent)
 {
-    bool ok = false;;
+    bool ok = false;
     nbAste = QInputDialog::getInt(this,"Nombre d'astéroide", "Entrez le nombre d'astéroide (entre 0 et 32) :", 0, 0, 32, 1, &ok);
 
     camera_ = camera;
@@ -146,14 +146,25 @@ std::list<asteroide*> MyGLWidget::generateastéroides(int nbmaxAste)
             int iteratorz = (*it)->getz();
             int iteratorradius = (*it)->getradius();
             // Vérifiacation qu'on ne va pas créer 2 astéroides qui se collisionnent
-            if ((iteratorz - iteratorradius < z) && (z < iteratorz + iteratorradius))
+            if ((iteratorz - iteratorradius < z) && (z < iteratorz + iteratorradius)) //Vérif z
             {
-                if ((iteratory - iteratorradius < y) && (y < iteratory + iteratorradius))
+                if ((iteratory - iteratorradius < y) && (y < iteratory + iteratorradius)) //Vérif y
                 {
-                    if ((iteratorx - iteratorradius < x) && (x < iteratorx + iteratorradius))
+                    if ((iteratorx - iteratorradius < x) && (x < iteratorx + iteratorradius)) //Vérif x
                     {
                         flag = false;
                     }
+                }
+            }
+        }
+        // Vérification que l'astéroide n'apparait pas au meme endroit que le vaisseau
+        if ((x < -10) || (x > 10))
+        {
+            if ((y < -10) || (y > 10))
+            {
+                if ((z < -10))
+                {
+                    flag = false;
                 }
             }
         }
@@ -177,6 +188,9 @@ bool MyGLWidget::ifCollisionAste(asteroide* aste)
     double distance = pow(pow(maVoiture->getx()-aste->getx(),2)+pow(maVoiture->gety()-aste->gety(),2)+pow(maVoiture->getz()-aste->getz(),2),0.5);
     if (distance < (maVoiture->getradius() + aste->getradius()))
     {
+        qDebug() << "Vaisseau.x = " << maVoiture->getx() << "Vaisseau.y = " << maVoiture->gety() << "Vaisseau.z = " << maVoiture->getz() ;
+        qDebug() << "Aste.x = " << aste->getx() << "Aste.y = " << aste->gety() << "Aste.z = " << aste->getz() << "Aste.radius = " << aste->getradius();
+        qDebug() << distance;
         return true;
     }
     return false;
@@ -187,6 +201,8 @@ bool MyGLWidget::ifFinDePartie()
     double distance = pow(pow(maVoiture->getx()-station->getx(),2)+pow(maVoiture->gety()-station->gety(),2)+pow(maVoiture->getz()-station->getz(),2),0.5);
     if (distance < (maVoiture->getradius() + 9))
     {
+        qDebug() << "Vaisseau.x = " << maVoiture->getx() << "Vaisseau.y = " << maVoiture->gety() << "Vaisseau.z = " << maVoiture->getz() ;
+        qDebug() << "Station.x = " << station->getx() << "Aste.y = " << station->gety() << "Aste.z = " << station->getz();
         qDebug() << distance;
         return true;
     }
