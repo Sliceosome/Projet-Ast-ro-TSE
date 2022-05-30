@@ -41,12 +41,15 @@ protected:
     bool ifFinDePartie();
 
     void readOrder();
+    
+    //Gestion du reset du jeu
+    void reset();
 
 private:
     Vaisseau* maVoiture = nullptr;
     int nbAste;
     std::list<asteroide*> lstAsteroide;
-    Station* station  = nullptr;
+    Station* station = new Station(0,0,-20);
 
     float m_TimeElapsed { 0.0f };
     QTimer m_AnimationTimer;
