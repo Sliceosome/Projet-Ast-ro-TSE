@@ -52,7 +52,8 @@ void MyGLWidget::initializeGL()
     // /!\Générer les coordonnées au hasard
     int stationx = rand()%(100 + 1) -50;
     int stationy = rand()%(100 + 1) -50;
-    station = new Station(-9,0,-20);
+    station->setx(0);
+    station->sety(0);
 }
 
 
@@ -122,8 +123,8 @@ void MyGLWidget::paintGL()
 
         if ( ifCollisionAste((*it)))
         {
-            qDebug() << "collision asté";
-            //initializeGL();
+            qDebug() << "DEFAITE";
+            reset();
         }
     }
 
@@ -137,8 +138,9 @@ void MyGLWidget::paintGL()
 
     if ( ifFinDePartie() )
     {
-        qDebug() << "collisions station";
-         //initializeGL();
+        qDebug() << "VICTOIRE";
+        reset();
+
     }
 
 
@@ -165,27 +167,17 @@ std::list<asteroide*> MyGLWidget::generateastéroides(int nbmaxAste)
             int iteratorz = (*it)->getz();
             int iteratorradius = (*it)->getradius();
             // Vérifiacation qu'on ne va pas créer 2 astéroides qui se collisionnent
-            if ((iteratorz - iteratorradius < z) && (z < iteratorz + iteratorradius)) //Vérif z
+            double distance = pow(pow(iteratorx-x,2)+pow(iteratory-y,2)+pow(iteratorz-z,2),0.5);
+            if (distance < iteratorradius + radius)
             {
-                if ((iteratory - iteratorradius < y) && (y < iteratory + iteratorradius)) //Vérif y
-                {
-                    if ((iteratorx - iteratorradius < x) && (x < iteratorx + iteratorradius)) //Vérif x
-                    {
-                        flag = false;
-                    }
-                }
+                flag = false;
             }
         }
         // Vérification que l'astéroide n'apparait pas au meme endroit que le vaisseau
-        if ((x < -10) || (x > 10))
+        double distance = pow(pow(x,2)+pow(y,2)+pow(z,2),0.5);
+        if (distance < radius) //Vérif distance entre le centre et l'astéroide
         {
-            if ((y < -10) || (y > 10))
-            {
-                if ((z < -10))
-                {
-                    flag = false;
-                }
-            }
+            flag = false;
         }
 
         if (flag == true)
@@ -226,4 +218,26 @@ bool MyGLWidget::ifFinDePartie()
         return true;
     }
     return false;
+}rn false;
 }
+
+void MyGLWidget::reset()
+{
+    qDebug() << "reset";
+
+    int stationx = rand()%(100 + 1) -50;
+    int stationy = rand()%(100 + 1) -50;
+
+    station->setx(0);
+    station->sety(2);
+    station->setz(-20);
+
+    maVoiture->setx(0);
+    maVoiture->sety(-1);
+    maVoiture->setz(-3);
+
+    lstAsteroide.clear();
+    generateastéroides(nbAste);
+
+}
+
