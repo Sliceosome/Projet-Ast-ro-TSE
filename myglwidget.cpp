@@ -43,7 +43,7 @@ void MyGLWidget::initializeGL()
     glEnable(GL_DEPTH_TEST);
 
     // Activation de la lumière
-    glEnable(GL_LIGHTING);
+    //glEnable(GL_LIGHTING);
 
     maVoiture = new Vaisseau();
 

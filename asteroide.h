@@ -1,7 +1,7 @@
 #include <qopengl.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
-#include <QColor>
+#include <QImage>
 
 #ifndef ASTEROIDE_H
 #define ASTEROIDE_H
@@ -29,7 +29,10 @@ private:
     int y;
     int z;
     int radius;
-    GLUquadricObj *pObj = gluNewQuadric();
+
+    QImage* image = new QImage();
+
+    GLUquadric * pObj { nullptr };
 };
 
 #endif // ASTEROIDE_H
