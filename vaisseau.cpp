@@ -33,9 +33,9 @@ void Vaisseau::Display()
 {
     gluQuadricDrawStyle(m_Roue,GLU_FILL);
     glEnable(GL_LIGHT0);
-    GLfloat val_lum[] = {1.0, 1.0, 0.0,1.0};
+    GLfloat val_lum[] = {1.0, 1.0, 1.0,1.0};
     GLfloat pos_lum[] = {0.0, 0.0, 1.0,0.0};
-    GLfloat val_vaiss[] = {1.0, 0.0, 0.0,1.0};
+    GLfloat val_vaiss[] = {1.0, 1.0, 0.0,1.0};
     glLightfv(GL_LIGHT0,GL_DIFFUSE,val_lum);
     glLightfv(GL_LIGHT0,GL_POSITION,pos_lum);
 
@@ -68,5 +68,5 @@ void Vaisseau::Display()
     glVertex3d(getx()-4,gety()-1,getz());
     glVertex3d(getx()-4,gety()+1,getz());
     glEnd();
-    //glDisable(GL_LIGHT0);
+    glDisable(GL_LIGHT0);
 }

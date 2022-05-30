@@ -7,6 +7,7 @@
 
 Station::Station(int x, int y, int z)
 {
+    glEnable(GL_LIGHT1);
     corps = gluNewQuadric();
 
     this->x = x;
@@ -26,10 +27,10 @@ Station::Station(int x, int y, int z)
 
     GLfloat jaune[] = {1.f, 1.0, 1.0, 1.0};
 
-    glLightfv(GL_LIGHT0,GL_POSITION,light_tab5);
-    glLightfv(GL_LIGHT0,GL_AMBIENT, light_tab4);
-    glLightfv(GL_LIGHT0,GL_DIFFUSE, light_tab4);
-    glLightfv(GL_LIGHT0,GL_SPECULAR, light_tab4);
+    glLightfv(GL_LIGHT1,GL_POSITION,light_tab5);
+    glLightfv(GL_LIGHT1,GL_AMBIENT, light_tab4);
+    glLightfv(GL_LIGHT1,GL_DIFFUSE, light_tab4);
+    glLightfv(GL_LIGHT1,GL_SPECULAR, light_tab4);
 
 
     glMaterialfv(GL_FRONT,GL_AMBIENT, light_tab);
@@ -158,4 +159,5 @@ void Station::Display(uint64_t iTimeElapsed) const
         gluDisk(corps, 0.0, 0.25, 30, 1);
         glPopMatrix();
     }
+    glDisable(GL_LIGHT1);
 }
