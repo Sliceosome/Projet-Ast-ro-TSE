@@ -16,6 +16,10 @@ public:
     int getx() { return this->x+9;};
     int gety(){ return this->y;};
     int getz(){ return this->z;};
+    
+    void setx(int newX) {x = newX;};
+    void sety(int newY) {y = newY;};
+    void setz(int newZ) {z = newZ;};
 
 
 private:
