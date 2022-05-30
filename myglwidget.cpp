@@ -46,7 +46,7 @@ void MyGLWidget::initializeGL()
     // Activation de la lumière
     glEnable(GL_LIGHTING);
 
-    maVoiture = new Vaisseau(0,-1,-5);
+    maVoiture = new Vaisseau();
 
     std::list<asteroide*> lstAsteroide = generateastéroides(nbAste);
 
@@ -103,9 +103,9 @@ void MyGLWidget::readOrder(){
         maVoiture->setTheta(angleX);
         glTranslatef(maVoiture->getx(),maVoiture->gety(),maVoiture->getz());
         maVoiture->Display();
-        qDebug() << maVoiture->getz();
-        qDebug() << maVoiture->gety();
-        qDebug() << maVoiture->getx();
+//        qDebug() << maVoiture->getz();
+//        qDebug() << maVoiture->gety();
+//        qDebug() << maVoiture->getx();
 
         glPopMatrix();
 }

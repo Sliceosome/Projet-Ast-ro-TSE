@@ -2,15 +2,11 @@
 #include <iostream>
 
 
-Vaisseau::Vaisseau(int x, int y, int z)
+Vaisseau::Vaisseau()
 {
     // Initialisation des paramètres
     m_Roue = gluNewQuadric();
     m_Roue2 = gluNewQuadric();
-
-    this->x = x-3;
-    this->y = y;
-    this->z = z;
 }
 
 Vaisseau::~Vaisseau()
@@ -22,23 +18,15 @@ Vaisseau::~Vaisseau()
         gluDeleteQuadric(m_Roue2);
 }
 
-int Vaisseau::getx(){
+float Vaisseau::getx(){
    // std::cout <<"gneu : " <<prof*std::sin((theta*M_PI)/180.f)*std::cos((phi*M_PI)/180)<<std::endl;
     return prof*std::sin((theta*M_PI)/180)*std::cos((phi*M_PI)/180);
 }
-int Vaisseau::gety(){
+float Vaisseau::gety(){
     return prof*std::sin((theta*M_PI)/180)*std::sin((phi*M_PI)/180)-1;
 }
-int Vaisseau::getz(){
+float Vaisseau::getz(){
     return prof*std::cos((theta*M_PI)/180)-5;
-}
-
-void Vaisseau::turn(QString ordre){
-    if(ordre == "left"){
-
-    }else if(ordre == "right"){
-
-    }
 }
 
 void Vaisseau::Display()
